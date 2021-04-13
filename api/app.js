@@ -16,6 +16,7 @@ process.on('uncaughtException', err => {
   console.log("API error: ", err)
 })
 
+app.options('*', cors());
 app.use('/api/v1/', require('./routes/main'));
 
 

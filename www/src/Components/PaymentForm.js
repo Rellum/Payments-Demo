@@ -77,7 +77,7 @@ export default class PaymentForm extends Component {
     };
 
     // (See Step 2 on the API)
-    fetch("http://localhost:3124/api/v1/payments", requestOptions)
+    fetch(process.env.REACT_APP_API_URL+"/api/v1/payments", requestOptions)
       .then((response) => response.json())
       .then((data) => {
         console.log("Step 1: Submitted payment", data);
@@ -113,7 +113,7 @@ export default class PaymentForm extends Component {
     };
 
     // Step 4 (see API) 
-    fetch("http://localhost:3124/api/v1/payments/" + this.state.transactionId, requestOptions)
+    fetch( process.env.REACT_APP_API_URL+"/api/v1/payments/" + this.state.transactionId, requestOptions)
       .then((response) => response.json())
       .then((data) => {
         console.log("Step 2. Patched transaction after 3DS data collected from 3DSMethod", data)
@@ -171,7 +171,7 @@ export default class PaymentForm extends Component {
 
   //Extra function for seeing the current transaction state.
   getTxState = () => {
-    fetch("http://localhost:3124/api/v1/payments/" + this.state.transactionId)
+    fetch(process.env.REACT_APP_API_URL+"/api/v1/payments/" + this.state.transactionId)
     .then((response) => response.json())
     .then((data) => {
         console.log(data);
@@ -199,11 +199,11 @@ export default class PaymentForm extends Component {
           <Frame>
           <div style={{display:'flex', justifyContent:'center', alignItems:'center', flexDirection:'column', height:'100vh'}}>
               <h1>Payment successful</h1>
-              <Button varient="contained" color="primary" onClick={() => window.open('http://localhost:3000', '_self')}>Try again</Button>
+              <Button varient="contained" color="primary" onClick={() => window.open('/', '_self')}>Try again</Button>
           </div></Frame>)
         return ( <Frame><div style={{display:'flex', justifyContent:'center', alignItems:'center', flexDirection:'column', height:'100vh'}}>
             <h1>Payment failed</h1>
-            <Button varient="contained" color="primary" onClick={() => window.open('http://localhost:3000', '_self')}>Try again</Button>
+            <Button varient="contained" color="primary" onClick={() => window.open('/', '_self')}>Try again</Button>
         </div></Frame>)
     }
 

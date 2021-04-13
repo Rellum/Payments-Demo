@@ -1,0 +1,22 @@
+version: "3.7"
+services:
+  www:
+    build: www
+    container_name: fiserv-www
+    ports:
+      - 3000:3000
+    stdin_open: true
+    restart: always
+    depends_on:
+      - api
+    env_file:
+      - www/config.env
+
+  api:
+    build: api
+    container_name: fiserv-api
+    ports:
+      - 3124:3124
+    restart: always
+    env_file:
+      - api/config.env

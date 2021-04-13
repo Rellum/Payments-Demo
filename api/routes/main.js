@@ -6,9 +6,9 @@ var CryptoJS = require("crypto-js");
 const {v4: uuidv4} = require("uuid");
 
 //These are the API keys and token for generating an encrypted message
-const key = "API Key goes here";
-const secret = "Secret goes here";
-const url = "https://prod.emea.api.fiservapps.com/sandbox/ipp/payments-gateway/v2/payments/"
+const key = process.env.FISERV_KEY;
+const secret = process.env.FISERV_SECRET;
+const url = process.env.FISERV_URL;
 
 //When ever you communicate with IPG you need to encrypt the body of the message. This function modifies the API call to include the correct message signatures. 
 function fiservEncode(method, url, body, callback) {
@@ -64,7 +64,7 @@ router.post("/payments", async (req, res) => {
       },
       authenticationRequest: {
         authenticationType: "Secure3D21AuthenticationRequest",
-        termURL: "http://localhost:3124/api/v1/payments/3ds",
+        termURL: process.env.API_URL + "/api/v1/payments/3ds",
         challengeIndicator: "04", // This indicates what type of transaction we would like. 
       },
     },
@@ -122,7 +122,7 @@ router.post("/payments/3ds", async (req, res) => {
       request(options, function (error, paymentResponse) {
         if (error) throw new Error(error);
         let paymentData = JSON.parse(paymentResponse.body);
-        res.redirect(`http://localhost:3000?paymentComplete=true&status=${paymentData.transactionStatus}`);
+        res.redirect(`${process.env.WWW_URL}?paymentComplete=true&status=${paymentData.transactionStatus}`);
       });
     }
   );
